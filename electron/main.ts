@@ -1,19 +1,34 @@
 import { app, BrowserWindow, Menu, Tray } from "electron";
-import path from "path";
+import path from "node:path";
 
-process.env.DIST = path.join(__dirname, "../dist-electron");
+// The built directory structure
+//
+// ├─┬─┬ dist
+// │ │ └── index.html
+// │ │
+// │ ├─┬ dist-electron
+// │ │ ├── main.js
+// │ │ └── preload.js
+// │
+
+process.env.DIST = path.join(__dirname, "../dist");
 process.env.VITE_PUBLIC = app.isPackaged
   ? process.env.DIST
   : path.join(process.env.DIST, "../public");
 
 let win: BrowserWindow | null;
+// 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
+
 let tray: Tray | null;
 
 const iconPath = path.join(process.env.VITE_PUBLIC, "weather.png");
 
 // Hide dock icon on macOS
 // app.dock.hide();
+
+// console.log(path.join(__dirname, "dist-electron", "preload.js"));
+console.log(path.join(__dirname, "../index.html"));
 
 function createWindow() {
   win = new BrowserWindow({
@@ -28,21 +43,19 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: true,
-      contextIsolation: false,
     },
   });
-
+  if (VITE_DEV_SERVER_URL) {
+    win.loadURL(VITE_DEV_SERVER_URL);
+  } else {
+    // win.loadFile('dist/index.html')
+    win.loadFile(path.join(process.env.DIST, "index.html"));
+  }
   win.on("blur", () => {
     win?.webContents.send("out-of-window");
   });
 
   win.webContents.openDevTools();
-
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
-  } else {
-    win.loadFile(path.join(process.env.DIST, "index.html"));
-  }
 
   // const trayIconPath = path.join(__dirname, "weather-icon-original.svg");
   tray = new Tray(iconPath);
@@ -69,9 +82,7 @@ function createWindow() {
   });
 
   win.on("leave-full-screen", () => {
-    // if (!isDev) {
     win?.webContents.send("hide-cursor");
-    // }
   });
 
   win.on("focus", () => {

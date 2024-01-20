@@ -3,7 +3,7 @@ import "./App.css";
 import { RiDragMoveFill } from "react-icons/ri";
 import { FaLocationDot } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { ipcRenderer } from "electron";
+// import { ipcRenderer } from "electron";
 
 import { TextField, Autocomplete } from "@mui/material";
 import { Weather } from "./Components/Weather";
@@ -16,6 +16,7 @@ function App() {
   const [location_data, setLocation_data] = useState<T_location>({} as any);
   const [sercheButton, setSercheButton] = useState<boolean>(false);
   const [weather_data, setWeather_data] = useState<boolean>(false);
+  const [bg_color, setBg_color] = useState<boolean>(false);
 
   const [show_calander, setShow_calander] = useState<boolean>(false);
 
@@ -32,7 +33,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    ipcRenderer.on("out-of-window", () => {
+    window.ipcRenderer.on("out-of-window", () => {
+      setBg_color(true);
       setMenu(false);
       setShow_calander(false);
       if (sercheButton) {
@@ -40,7 +42,9 @@ function App() {
         setLocation([]);
       }
     });
-    ipcRenderer.on("focus-on-window", () => {
+    window.ipcRenderer.on("focus-on-window", () => {
+      setBg_color(false);
+
       setMenu(true);
     });
     return () => {
@@ -82,7 +86,11 @@ function App() {
   // bg-[#0D9DE3]
 
   return (
-    <div className={`flex flex-col w-screen h-screen app ${bg}`}>
+    <div
+      className={`flex flex-col w-screen h-screen ${
+        !bg_color ? ` app ${bg} ` : "bg-gray-800"
+      } `}
+    >
       {show_calander && <Calander show_calander={setShow_calander} />}
       {menu && (
         <div className=" absolute flex flex-col self-end ">

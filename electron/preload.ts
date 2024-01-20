@@ -58,7 +58,7 @@ const safeDOM = {
  * https://projects.lukehaas.me/css-loaders
  * https://matejkustec.github.io/SpinThatShit
  */
-function loading() {
+function Loading() {
   const className = `loaders-css__square-spin`;
   const styleContent = `
 @keyframes square-spin {
@@ -109,7 +109,7 @@ function loading() {
 
 // ----------------------------------------------------------------------
 
-const { appendLoading, removeLoading } = loading();
+const { appendLoading, removeLoading } = Loading();
 domReady().then(appendLoading);
 
 window.onmessage = (ev) => {
@@ -117,3 +117,5 @@ window.onmessage = (ev) => {
 };
 
 setTimeout(removeLoading, 4999);
+
+window.ipcRenderer = ipcRenderer;

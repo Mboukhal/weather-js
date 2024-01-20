@@ -98,7 +98,7 @@ export const Weather = ({
   };
 
   return (
-    <div className="flex flex-col mt-4 font-bold text-white">
+    <div className="flex  text-white  flex-col mt-4 font-bold ">
       <p className="ml-3">
         {location &&
           location.name.charAt(0).toUpperCase() +
@@ -117,7 +117,7 @@ export const Weather = ({
               {weather_data.current.temperature_2m}°
             </span>
           </div>
-          <p className="flex flex-row items-center gap-1 ml-1">
+          <p className="flex flex-row items-center gap-1 ml-1 ">
             <TiWeatherWindy />
             {weather_data.current.wind_speed_10m}
             <span className=" font-light">{" km/h"}</span>

@@ -5,3 +5,10 @@
 .drag-all {
   -webkit-app-region: drag;
 }
+
+.GFG {
+  color: white;
+  /* font-size: 50px; */
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: rgb(0, 255, 145);
+}

@@ -8,12 +8,16 @@ import { ipcRenderer } from "electron";
 import { TextField, Autocomplete } from "@mui/material";
 import { Weather } from "./Components/Weather";
 import { T_location } from "./Components/types";
+import { Calander } from "./Components/Calander";
+// import "react-calendar/dist/Calendar.css";
 
 function App() {
   const [location, setLocation] = useState<T_location[]>([]);
   const [location_data, setLocation_data] = useState<T_location>({} as any);
   const [sercheButton, setSercheButton] = useState<boolean>(false);
   const [weather_data, setWeather_data] = useState<boolean>(false);
+
+  const [show_calander, setShow_calander] = useState<boolean>(false);
 
   const [bg, setBg] = useState<string>("");
 
@@ -30,6 +34,7 @@ function App() {
   useEffect(() => {
     ipcRenderer.on("out-of-window", () => {
       setMenu(false);
+      setShow_calander(false);
       if (sercheButton) {
         setSercheButton(false);
         setLocation([]);
@@ -77,11 +82,12 @@ function App() {
   // bg-[#0D9DE3]
 
   return (
-    <div className={`flex flex-col w-screen h-screen app ${bg ? bg : ""}`}>
+    <div className={`flex flex-col w-screen h-screen app ${bg}`}>
+      {show_calander && <Calander show_calander={setShow_calander} />}
       {menu && (
         <div className=" absolute flex flex-col self-end ">
           <button
-            className={`flex  z-20 justify-center items-center bg-gray-500 opacity-60  drag-all w-[25px] h-[25px] rounded-md m-1  `}
+            className={`flex z-50 justify-center items-center bg-gray-500 opacity-60  drag-all w-[25px] h-[25px] rounded-md m-1  `}
           >
             <RiDragMoveFill className=" text-white" />
           </button>
@@ -102,7 +108,11 @@ function App() {
       )}
       {weather_data ? (
         // TODO: add weather data
-        <Weather location={location_data} setBg={setBg} />
+        <Weather
+          location={location_data}
+          setBg={setBg}
+          show_calander={setShow_calander}
+        />
       ) : (
         <div className="flex w-full justify-center font-medium mt-3">
           <p>Set Location</p>

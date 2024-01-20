@@ -18,7 +18,7 @@ const iconPath = path.join(process.env.VITE_PUBLIC, "weather.png");
 function createWindow() {
   win = new BrowserWindow({
     width: 400,
-    height: 210,
+    height: 230,
     resizable: false,
     frame: false,
     alwaysOnTop: false,

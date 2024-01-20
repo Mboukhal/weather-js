@@ -2,6 +2,9 @@
   "name": "widjs1",
   "private": true,
   "version": "0.0.0",
+  "permissions": [
+    "geolocation"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
@@ -9,7 +12,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@uidotdev/usehooks": "^2.4.1",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.5",
+    "electron-get-location": "^1.0.1",
     "electron-is-dev": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -22,7 +28,7 @@
     "@typescript-eslint/parser": "^6.6.0",
     "@vitejs/plugin-react": "^4.0.4",
     "autoprefixer": "^10.4.16",
-    "electron": "^26.6.5",
+    "electron": "^28.1.4",
     "electron-builder": "^24.6.4",
     "eslint": "^8.48.0",
     "eslint-plugin-react-hooks": "^4.6.0",

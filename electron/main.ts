@@ -17,8 +17,8 @@ const iconPath = path.join(process.env.VITE_PUBLIC, "weather.png");
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 300,
-    height: 200,
+    width: 400,
+    height: 210,
     resizable: false,
     frame: false,
     alwaysOnTop: false,
@@ -32,9 +32,11 @@ function createWindow() {
     },
   });
 
-  win.webContents.on("did-finish-load", () => {
-    win?.webContents.send("main-process-message", new Date().toLocaleString());
+  win.on("blur", () => {
+    win?.webContents.send("out-of-window");
   });
+
+  win.webContents.openDevTools();
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -52,7 +54,7 @@ function createWindow() {
       },
     },
   ]);
-  tray.setToolTip("Your Electron-React App");
+  tray.setToolTip("Weather");
   tray.setContextMenu(contextMenu);
 
   // Minimize to tray on window close
@@ -70,6 +72,10 @@ function createWindow() {
     // if (!isDev) {
     win?.webContents.send("hide-cursor");
     // }
+  });
+
+  win.on("focus", () => {
+    win?.webContents.send("focus-on-window");
   });
 }
 

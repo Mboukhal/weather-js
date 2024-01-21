@@ -1,10 +1,7 @@
 {
-  "name": "widjs1",
+  "name": "weather",
   "private": true,
   "version": "0.0.0",
-  "permissions": [
-    "geolocation"
-  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",

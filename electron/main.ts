@@ -55,8 +55,8 @@ function createWindow() {
     win?.webContents.send("out-of-window");
   });
 
-  win.webContents.openDevTools();
-
+  // win.webContents.openDevTools();
+  win.setIcon(iconPath)
   // const trayIconPath = path.join(__dirname, "weather-icon-original.svg");
   tray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
